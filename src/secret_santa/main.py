@@ -38,10 +38,7 @@ if __name__ == "__main__":
     conf_path = os.getenv("CONFIG_PATH", "./config.json")
     output_path = os.getenv("OUTPUT_PATH", "/tmp/secret-santa-result.json")
 
-    try:
-        players = json.loads(open(output_path).read())
-    except FileNotFoundError:
-        players = init(conf_path, output_path)
+    players = init(conf_path, output_path)
 
     @app.route("/")
     def get():
@@ -50,7 +47,7 @@ if __name__ == "__main__":
         if app_token != "" and token != app_token:
             return "<p>Error: Invalid token</p>"
 
-        if name == "raphael":
+        if name == "raphou":
             return f"<p>Hello {name}!<br/>Your secret santa target is {players[name]}<br/>Eva's secret santa target is {players['eva']}</p>"
         if name in players:
             return (
