@@ -1,6 +1,7 @@
 import json
 import os
 import random
+from turtle import resetscreen
 
 from flask import Flask, request
 
@@ -29,7 +30,9 @@ def init(input, output):
             player["target"] = random.choice(remaining)
             remaining.remove(player["target"])
 
-    open(output, "w").write(json.dumps({p["name"]: p["target"] for p in players}))
+    result = {p["name"]: p["target"] for p in players}
+    open(output, "w").write(json.dumps(result))
+    return result
 
 
 if __name__ == "__main__":
