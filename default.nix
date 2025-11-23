@@ -10,7 +10,10 @@ let
       pkgs.python313Packages.setuptools
       pkgs.python313Packages.wheel
     ];
-    propagatedBuildInputs = [ pkgs.python313Packages.flask ];
+    propagatedBuildInputs = [
+      pkgs.python313Packages.flask
+      pkgs.python313Packages.tkinter
+    ];
 
     pyproject = true;
     build-system = [
@@ -24,7 +27,11 @@ let
     };
   };
   pythonEnv = pkgs.python313.buildEnv.override {
-    extraLibs = [ pkgs.python313Packages.flask pythonPackage ];
+    extraLibs = [
+      pkgs.python313Packages.flask
+      pkgs.python313Packages.tkinter
+      pythonPackage
+    ];
     ignoreCollisions = true;
   };
 in
