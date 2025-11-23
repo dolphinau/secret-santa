@@ -1,8 +1,8 @@
 import json
+import os
 import random
-import sys
 
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -33,21 +33,23 @@ def init(input, output):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 4:
-        conf_path = sys.argv[1]
-        out_path = sys.argv[2]
-        port = sys.argv[3]
-    else:
-        print("Error: need two args <input conf> <output file>")
-        exit(1)
+    app_token = os.getenv("TOKEN", "")
+    port = os.getenv("PORT", "3000")
+    conf_path = os.getenv("CONFIG_PATH", "./config.json")
+    output_path = os.getenv("OUTPUT_PATH", "/tmp/secret-santa-result.json")
 
     try:
-        players = json.loads(open(out_path).read())
+        players = json.loads(open(output_path).read())
     except FileNotFoundError:
-        players = init(conf_path, out_path)
+        players = init(conf_path, output_path)
 
-    @app.route("/<name>")
-    def get(name):
+    @app.route("/")
+    def get():
+        name = request.args.get("user_name")
+        token = request.args.get("token")
+        if app_token != "" and token != app_token:
+            return "<p>Error: Invalid token</p>"
+
         if name == "raphael":
             return f"<p>Hello {name}!<br/>Your secret santa target is {players[name]}<br/>Eva's secret santa target is {players['eva']}</p>"
         if name in players:
