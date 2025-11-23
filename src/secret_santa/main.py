@@ -43,7 +43,7 @@ if __name__ == "__main__":
     try:
         players = json.loads(open(out_path).read())
     except FileNotFoundError:
-        players = init(out_path)
+        players = init(conf_path, out_path)
 
     @app.route("/<name>")
     def get(name):
