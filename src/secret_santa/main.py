@@ -33,9 +33,10 @@ def init(input, output):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 4:
         conf_path = sys.argv[1]
         out_path = sys.argv[2]
+        port = sys.argv[3]
     else:
         print("Error: need two args <input conf> <output file>")
         exit(1)
@@ -56,4 +57,4 @@ if __name__ == "__main__":
         else:
             return f"<p>Error: Player {name} not found"
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=port)
